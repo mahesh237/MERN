@@ -40,3 +40,29 @@ exports.loginUser = catchAsyncErrors(async(req,res,next)=>{
     sendToken(user,200,res);
 
 })
+
+
+//logout User
+
+exports.logout =catchAsyncErrors(async(req,res,next)=>{
+    res.cookie("token",null,{
+        expires: new Date(Date.now()),
+        httpOnly:true,
+    })
+    res.status(200).json({
+        success:true,
+        message:"Logged Out",
+    })
+})
+
+//forgot password
+
+exports.forgotPassword = catchAsyncErrors(async(req,res,next)=>{
+    const user = await user.findOne({email:req.body.email});
+
+    if(!user){
+        return next(new ErrorHandler("User not found",404));
+    }
+
+    //Get reset passsword token
+})
